@@ -33,6 +33,9 @@ export default class Release extends BaseModel {
   public link: string
 
   @column()
+  public label: string
+
+  @column()
   public reason: string
 
   @column()

@@ -16,6 +16,7 @@ export default class Releases extends BaseSchema {
       table.string('date').notNullable()
       table.integer('user_id').notNullable()
       table.string('link').notNullable()
+      table.string('label').notNullable()
       table.boolean('accepted').notNullable()
       table.string('reason')
       table.integer('accepted_by')
