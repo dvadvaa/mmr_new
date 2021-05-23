@@ -1,0 +1,83 @@
+<style>
+  .b-example-divider {
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+
+  .form-control-dark {
+    color: #fff;
+    background-color: var(--bs-dark);
+    border-color: var(--bs-gray);
+  }
+  .form-control-dark:focus {
+    color: #fff;
+    background-color: var(--bs-dark);
+    border-color: #fff;
+    box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+  }
+
+  .bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+  }
+
+  .text-small {
+    font-size: 85%;
+  }
+
+  .dropdown-toggle {
+    outline: 0;
+  }
+</style>
+<header class="p-3 bg-dark text-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      @if(!auth.user)
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" style="font-size: 22px;margin-right: 15px;">
+                <b>MMR</b>
+        </a>
+      @else
+        <a href="/dashboard" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" style="font-size: 22px;margin-right: 15px;">
+          <b>MMR</b>
+        </a>
+      @end
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        @if(!auth.user)
+        <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
+        @else
+        <li><a href="/dashboard" class="nav-link px-2 text-white">Главная</a></li>
+        <li><a href="/dashboard/releases" class="nav-link px-2 text-white">Релизы</a></li>
+        <li><a href="/dashboard/releases/new" class="nav-link px-2 text-white">Создать релиз</a></li>
+        @end
+      </ul>
+      @if(auth.user)
+      <div class="dropdown">
+        <a class="btn btn-outline-light me-2" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ auth.user.username }} | {{ auth.user.balance }} ₽
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          @if(auth.user.status === 'admin')
+          <li><a class="dropdown-item" href="/admin">Админ-панель</a></li>
+          @end
+          <li>
+            <form class="" action="/logout" method="POST" id="logout">
+              {{ csrfField() }}
+              <a class="dropdown-item" href="" onClick="document.getElementById('logout').submit(); return false;">Выход</a>
+            </form>
+          </li>
+        </ul>
+      </div>
+      @else
+      <div class="text-end">
+        <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</button>
+      </div>
+      @endif
+      @include('assets/login')
+    </div>
+  </div>
+</header>

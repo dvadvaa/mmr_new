@@ -1,0 +1,75 @@
+@layout('layouts/main')
+@set('title', 'Релизы')
+@section('body')
+<div class="px-4 py-5 my-5 text-center">
+<!--  <img class="d-block mx-auto mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+  <h1 class="display-5 fw-bold">Мои релизы</h1>
+  <div class="col-lg-8 mx-auto">
+    @if(!data)
+        <p class="lead mb-4">
+          У вас нет релизов. Создать <a href="/dashboard/releases/new">новый</a>?
+        </p>
+    @else
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Испольнитель (доп.)</th>
+        <th scope="col">Название</th>
+        <th scope="col">Жанр</th>
+        <th scope="col">Версия</th>
+        <th scope="col">Explicit</th>
+        <th scope="col">Автор</th>
+        <th scope="col">Дата релиза</th>
+        <th scope="col">Лейбл</th>
+        <th scope="col">Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      @each(item in data)
+        <tr>
+          @if(item.another_artists)
+          <td>{{ item.main_artist }} ({{ item.another_artists }})</td>
+          @else
+          <td>{{ item.main_artist }}</td>
+          @end
+          <td>{{ item.name }}</td>
+          <td>{{ item.genre }}</td>
+          @if(item.version)
+          <td>{{ item.version }}</td>
+          @else
+          <td>-</td>
+          @end
+          @if(item.explicit === 1)
+          <td>Да</td>
+          @else
+          <td>Нет</td>
+          @end
+          <td>{{ item.author }}</td>
+          <td>{{ item.date }}</td>
+          <td>{{ item.label }}</td>
+          @if(item.accepted === 1)
+          <td><i class="far fa-check-circle"></i></td>
+          @elseif(item.accepted === 2)
+          <td><i class="fas fa-ban" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ item.reason }}"></i></td>
+          @else
+          <td><i class="far fa-clock"></i></td>
+          @end
+        </tr>
+      @end
+      </tbody>
+    </table>
+    @end
+<!--    <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>-->
+<!--    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">-->
+<!--      <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Primary button</button>-->
+<!--      <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>-->
+<!--    </div>-->
+  </div>
+</div>
+<script>
+  let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  })
+</script>
+@end
