@@ -19,6 +19,7 @@
         <th scope="col">Версия</th>
         <th scope="col">Explicit</th>
         <th scope="col">Автор</th>
+        <th scope="col">Лейбл</th>
         <th scope="col">Дата релиза</th>
         <th scope="col">Материал</th>
         <th scope="col">Статус</th>
@@ -47,6 +48,7 @@
         <td>Нет</td>
         @end
         <td>{{ item.author }}</td>
+        <td>{{ item.label }}</td>
         <td>{{ item.date }}</td>
         <td><a href="{{ item.link }}">Перейти</a></td>
         @if(item.accepted === 1)
@@ -110,3 +112,4 @@
   })
 </script>
 @end
+</div>

@@ -16,7 +16,11 @@ export default class AuthorizationsController {
     if (!payload) {
       return response.badRequest('Произошла ошибка, попробуйте позже.')
     }
-    await auth.use('web').attempt(payload.username, payload.password)
-    response.redirect('/dashboard')
+    try {
+      await auth.use('web').attempt(payload.username, payload.password)
+      response.redirect('/dashboard')
+    } catch (e) {
+      return response.badRequest('Invalid credentials')
+    }
   }
 }

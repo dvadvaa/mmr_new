@@ -30,6 +30,7 @@ export default class DashboardController {
       link: schema.string({}, [
         rules.url({}),
       ]),
+      label: schema.string(),
     })
     const payload = await request.validate({ schema: releaseSchema,
       messages: {
@@ -50,6 +51,7 @@ export default class DashboardController {
       accepted: false,
       date: payload.date,
       link: payload.link,
+      label: payload.label,
     }).catch(err => {
       Logger.error(err)
       return response.badRequest('Произошла ошибка при добавлении в базу данных, попробуйте позже.')

@@ -20,6 +20,7 @@
         <th scope="col">Explicit</th>
         <th scope="col">Автор</th>
         <th scope="col">Дата релиза</th>
+        <th scope="col">Лейбл</th>
         <th scope="col">Статус</th>
       </tr>
       </thead>
@@ -45,6 +46,7 @@
           @end
           <td>{{ item.author }}</td>
           <td>{{ item.date }}</td>
+          <td>{{ item.label }}</td>
           @if(item.accepted === 1)
           <td><i class="far fa-check-circle"></i></td>
           @elseif(item.accepted === 2)
