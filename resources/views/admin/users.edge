@@ -1,0 +1,115 @@
+@layout('layouts/admin')
+@set('title', 'Все пользователи')
+@section('body')
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-5 fw-bold">Все пользователи</h1>
+  <div class="col-lg-6 mx-auto">
+    @if(!data)
+    <p class="lead mb-4">
+      Нет пользователей в базе данных.
+    </p>
+    @else
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Логин</th>
+        <th scope="col">Email</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Баланс</th>
+        <th scope="col">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      @each(item in data)
+      <tr>
+        <th scope="row">{{ item.id }}</th>
+        <th>{{ item.username }}</th>
+        <th>{{ item.email }}</th>
+        <th>{{ item.status }}</th>
+        <th>{{ item.balance }} ₽</th>
+        <th>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#passwordModal_{{ item.id }}"><i class="far fa-user-circle"></i></a>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#moneyModal_{{ item.id }}"><i class="fas fa-money-bill-wave"></i></a>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ item.id }}"><i class="far fa-times-circle"></i></a>
+        </th>
+      </tr>
+      <div class="modal fade" id="moneyModal_{{ item.id }}" tabindex="-1" aria-labelledby="reasonModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">{{ item.username }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="" action="/api/admin/user/money/{{ item.id }}" method="POST">
+                {{ csrfField() }}
+                <div class="form-floating mb-3">
+                  <input type="number" name="balance" class="form-control" id="flotingMoney" placeholder="Количество средств" required>
+                  <label for="flotingMoney">Количество средств</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Установить</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="deleteModal_{{ item.id }}" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteLabel">{{ item.username }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="" action="/api/admin/user/delete/{{ item.id }}" method="POST">
+                {{ csrfField() }}
+                <p>Вы уверены, что хотите удалить пользователя {{ item.username }}?</p>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Удалить пользователя</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="passwordModal_{{ item.id }}" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="passwordLabel">{{ item.username }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="" action="/api/admin/user/data/{{ item.id }}" method="POST">
+                {{ csrfField() }}
+                <div class="form-floating mb-3">
+                  <input type="text" name="username" class="form-control" id="flotingUsername" placeholder="Новый логин">
+                  <label for="flotingUsername">Новый логин</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" name="email" class="form-control" id="flotingEmail" placeholder="Новый email">
+                  <label for="flotingPassword">Новый email</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" name="password" class="form-control" id="flotingPassword" placeholder="Новый пароль">
+                  <label for="flotingPassword">Новый пароль</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <select class="form-select" aria-label="Статус" name="status" id="floatingStatus" required>
+                    <option value="user" selected>User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <label for="floatingStatus">Статус</label>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Изменить</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      @end
+      </tbody>
+    </table>
+    @end
+  </div>
+</div>
+@end
