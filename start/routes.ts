@@ -21,46 +21,46 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.post('/user/new', 'AdminsController.registerUser');
-  Route.get('/release/accept/:id', 'AdminsController.acceptRelease');
-  Route.post('/release/decline/:id', 'AdminsController.declineRelease');
-  Route.post('/release/delete/:id', 'AdminsController.deleteRelease');
-  Route.post('/user/delete/:id', 'AdminsController.deleteUser');
-  Route.post('/user/money/:id', 'AdminsController.setMoneyUser');
-  Route.post('/user/data/:id', 'AdminsController.editUserData');
+  Route.post('/user/new', 'AdminsController.registerUser')
+  Route.get('/release/accept/:id', 'AdminsController.acceptRelease')
+  Route.post('/release/decline/:id', 'AdminsController.declineRelease')
+  Route.post('/release/delete/:id', 'AdminsController.deleteRelease')
+  Route.post('/user/delete/:id', 'AdminsController.deleteUser')
+  Route.post('/user/money/:id', 'AdminsController.setMoneyUser')
+  Route.post('/user/data/:id', 'AdminsController.editUserData')
 }).prefix('/api/admin').middleware('auth').middleware('admin')
 
 Route.group(() => {
-  Route.post('/application', 'ApplicationsController.index');
-  Route.post('/login', 'AuthorizationsController.index');
-}).prefix('/api');
+  Route.post('/application', 'ApplicationsController.index')
+  Route.post('/login', 'AuthorizationsController.index')
+}).prefix('/api')
 
 Route.group(() => {
-  Route.post('/release/new', 'DashboardController.createRelease');
-}).prefix('/api/user').middleware('auth');
+  Route.post('/release/new', 'DashboardController.createRelease')
+}).prefix('/api/user').middleware('auth')
 
 Route.get('/', async ({ view }) => {
-  return view.render('index');
-}).as('index');
+  return view.render('index')
+}).as('index')
 
 Route.get('/success', async ({ view }) => {
-  return view.render('success');
-}).as('success');
+  return view.render('success')
+}).as('success')
 
 Route.post('/logout', async ({ auth, response }) => {
-  await auth.use('web').logout();
-  response.redirect('/');
-}).middleware('auth');
+  await auth.use('web').logout()
+  response.redirect('/')
+}).middleware('auth')
 
 Route.group(() => {
-  Route.get('/', ({ view }) => view.render('admin/index')).as('admin.index');
-  Route.get('/users/new', ({ view }) => view.render('admin/newuser')).as('admin.newUser');
-  Route.get('/releases', 'AdminsController.getAllReleases').as('admin.releases');
-  Route.get('/users', 'AdminsController.getAllUsers').as('admin.users');
-}).prefix('/admin').middleware('auth').middleware('admin');
+  Route.get('/', ({ view }) => view.render('admin/index')).as('admin.index')
+  Route.get('/users/new', ({ view }) => view.render('admin/newuser')).as('admin.newUser')
+  Route.get('/releases', 'AdminsController.getAllReleases').as('admin.releases')
+  Route.get('/users', 'AdminsController.getAllUsers').as('admin.users')
+}).prefix('/admin').middleware('auth').middleware('admin')
 
 Route.group(() => {
-  Route.get('/', async ({ view }) => view.render('dashboard/index')).as('dashboard.index');
-  Route.get('/releases', 'DashboardController.getReleases').as('dashboard.releases');
-  Route.get('/releases/new', ({ view }) => view.render('dashboard/new')).as('dashboard.newRelease');
-}).prefix('/dashboard').middleware('auth');
+  Route.get('/', async ({ view }) => view.render('dashboard/index')).as('dashboard.index')
+  Route.get('/releases', 'DashboardController.getReleases').as('dashboard.releases')
+  Route.get('/releases/new', ({ view }) => view.render('dashboard/new')).as('dashboard.newRelease')
+}).prefix('/dashboard').middleware('auth')

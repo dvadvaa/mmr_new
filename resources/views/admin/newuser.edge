@@ -4,7 +4,7 @@
 <div class="px-4 py-5 my-5 text-center">
   <h1 class="display-5 fw-bold">Создание нового пользователя</h1>
   <div class="col-lg-6 mx-auto">
-    <form class="p-5 border rounded-3 bg-light" action="/api/admin/user/new" method="post">
+    <form class="p-5 border rounded-3 bg-light" action="{{ route('AdminsController.registerUser') }}" method="post">
       {{ csrfField() }}
       <div class="form-floating mb-3">
         <input type="text" name="username" class="form-control" id="flotingUsername" placeholder="Логин" required>

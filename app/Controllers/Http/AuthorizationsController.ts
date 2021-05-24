@@ -3,7 +3,7 @@
 import {rules, schema} from '@ioc:Adonis/Core/Validator'
 
 export default class AuthorizationsController {
-  public async index ({ request, response, auth }) {
+  public async index ({ request, response, auth, session }) {
     const authSchema = schema.create({
       username: schema.string({}),
       password: schema.string({}, [
@@ -20,7 +20,8 @@ export default class AuthorizationsController {
       await auth.use('web').attempt(payload.username, payload.password)
       response.redirect('/dashboard')
     } catch (e) {
-      return response.badRequest('Invalid credentials')
+      session.flash('error', 'Неверный логин или пароль.')
+      response.redirect().back()
     }
   }
 }

@@ -9,7 +9,7 @@
       {{ flashMessages.get('errors.required') }}
     </div>
     @end
-    <form class="p-5 border rounded-3 bg-light" action="/api/user/release/new" method="post">
+    <form class="p-5 border rounded-3 bg-light" action="{{ route('DashboardController.createRelease') }}" method="post">
       {{ csrfField() }}
       <div class="form-floating mb-3">
         <input type="text" name="name" class="form-control" id="flotingName" placeholder="Название" required>
