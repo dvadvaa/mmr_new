@@ -39,9 +39,8 @@ Route.group(() => {
   Route.post('/release/new', 'DashboardController.createRelease')
 }).prefix('/api/user').middleware('auth')
 
-Route.get('/', async ({ view, bouncer }) => {
-  await view.render('index')
-  await bouncer.authorize('index')
+Route.get('/', async ({ view }) => {
+  return view.render('index')
 }).as('index')
 
 Route.get('/success', async ({ view }) => {

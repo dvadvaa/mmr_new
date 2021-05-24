@@ -2,6 +2,7 @@
 import Application from 'App/Models/Application'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Logger from '@ioc:Adonis/Core/Logger'
+import axios from 'axios'
 
 export default class ApplicationsController {
   public async index ({ request, response }) {
@@ -28,13 +29,16 @@ export default class ApplicationsController {
         'link.url': 'Разрешены ссылки только на vk.com',
       },
     })
-    // // console.log(payload)
     const application = await Application.create(payload)
     if (!application) {
       Logger.error('Произошла ошибка при добавлении в базу (запрос лейбл).')
       return response.badRequest('Произошла ошибка, попробуйте позже.')
     }
     Logger.info('Новый запрос на лейбл.')
+    await axios.get(encodeURI(`https://api.telegram.org/bot1794482115:AAH6_8n3dTG8Xod_DYuMpuK9UVqFOykxj8Q/sendMessage?chat_id=-1001265810174&text=
+    Имя: ${payload.firstName}\nФамилия: ${payload.lastName}\ne-mail:${payload.email}\nusername:${payload.username}\nЛет:${payload.years}\nlink:${payload.link}`)).catch(_ => {
+      return response.badRequest('Произошла ошибка, попробуйте позже.')
+    })
     return response.redirect().toRoute('success')
   }
 }
