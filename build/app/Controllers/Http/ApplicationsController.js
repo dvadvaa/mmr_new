@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Application_1 = __importDefault(global[Symbol.for('ioc.use')]("App/Models/Application"));
 const Validator_1 = global[Symbol.for('ioc.use')]("Adonis/Core/Validator");
 const Logger_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Core/Logger"));
+const axios_1 = __importDefault(require("axios"));
 class ApplicationsController {
     async index({ request, response }) {
         const applicationSchema = Validator_1.schema.create({
@@ -37,6 +38,10 @@ class ApplicationsController {
             return response.badRequest('Произошла ошибка, попробуйте позже.');
         }
         Logger_1.default.info('Новый запрос на лейбл.');
+        await axios_1.default.get(encodeURI(`https://api.telegram.org/bot1794482115:AAH6_8n3dTG8Xod_DYuMpuK9UVqFOykxj8Q/sendMessage?chat_id=-1001265810174&text=
+    Имя: ${payload.firstName}\nФамилия: ${payload.lastName}\ne-mail:${payload.email}\nusername:${payload.username}\nЛет:${payload.years}\nlink:${payload.link}`)).catch(_ => {
+            return response.badRequest('Произошла ошибка, попробуйте позже.');
+        });
         return response.redirect().toRoute('success');
     }
 }

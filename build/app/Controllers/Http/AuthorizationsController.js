@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Validator_1 = global[Symbol.for('ioc.use')]("Adonis/Core/Validator");
 class AuthorizationsController {
-    async index({ request, response, auth }) {
+    async index({ request, response, auth, session }) {
         const authSchema = Validator_1.schema.create({
             username: Validator_1.schema.string({}),
             password: Validator_1.schema.string({}, [
@@ -20,7 +20,8 @@ class AuthorizationsController {
             response.redirect('/dashboard');
         }
         catch (e) {
-            return response.badRequest('Invalid credentials');
+            session.flash('error', 'Неверный логин или пароль.');
+            response.redirect().back();
         }
     }
 }

@@ -42,7 +42,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form class="" action="/api/admin/user/money/{{ item.id }}" method="POST">
+              <form class="" action="{{ route('AdminsController.setMoneyUser', {id: item.id}) }}" method="POST">
                 {{ csrfField() }}
                 <div class="form-floating mb-3">
                   <input type="number" name="balance" class="form-control" id="flotingMoney" placeholder="Количество средств" required>
@@ -62,7 +62,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form class="" action="/api/admin/user/delete/{{ item.id }}" method="POST">
+              <form class="" action="{{ route('AdminsController.deleteUser', {id: item.id}) }}" method="POST">
                 {{ csrfField() }}
                 <p>Вы уверены, что хотите удалить пользователя {{ item.username }}?</p>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Удалить пользователя</button>
@@ -79,7 +79,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form class="" action="/api/admin/user/data/{{ item.id }}" method="POST">
+              <form class="" action="{{ route('AdminsController.editUserData', {id: item.id}) }}" method="POST">
                 {{ csrfField() }}
                 <div class="form-floating mb-3">
                   <input type="text" name="username" class="form-control" id="flotingUsername" placeholder="Новый логин">

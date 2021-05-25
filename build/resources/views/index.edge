@@ -11,6 +11,11 @@
       </p>
     </div>
     <div class="col-10 mx-auto col-lg-5">
+      @if(flashMessages.has('error'))
+        <div class="alert alert-danger" role="alert">
+          {{ flashMessages.get('error') }}
+        </div>
+      @endif
       @if(flashMessages.get('errors.years'))
         <div class="alert alert-danger" role="alert">
           {{ flashMessages.get('errors.years') }}
@@ -31,7 +36,7 @@
         Спасибо! Администраторы уже получили вашу заявку, в случае одобрения, мы свяжемся с вами через email.
       </div>
       @end
-      <form class="p-5 border rounded-3 bg-light" action="/api/application" method="post">
+      <form class="p-5 border rounded-3 bg-light" action="{{ route('ApplicationsController.index') }}" method="post">
         {{ csrfField() }}
         <div class="form-floating mb-3">
           <input type="text" name="firstName" class="form-control" id="flotingFirstName" placeholder="Имя" required>
