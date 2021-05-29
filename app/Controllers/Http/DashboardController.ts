@@ -16,10 +16,10 @@ export default class DashboardController {
   public async createRelease ({ request, auth, response }) {
     const releaseSchema = schema.create({
       name: schema.string({}, [
-        rules.minLength(4),
+        rules.minLength(1),
       ]),
       main_artist: schema.string({}, [
-        rules.minLength(4),
+        rules.minLength(2),
       ]),
       another_artists: schema.string.optional(),
       version: schema.string.optional(),
@@ -52,6 +52,7 @@ export default class DashboardController {
       date: payload.date,
       link: payload.link,
       label: payload.label,
+      version: payload.label,
     }).catch(err => {
       Logger.error(err)
       return response.badRequest('Произошла ошибка при добавлении в базу данных, попробуйте позже.')
