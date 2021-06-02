@@ -1,116 +1,21 @@
 @layout('layouts/main')
 @set('title', 'Главная')
 @section('body')
-<div class="container col-xl-10 col-xxl-8 px-4 py-5">
-  <div class="row align-items-center g-5 py-5">
-    <div class="col-lg-7 text-center text-lg-start">
-      <h1 class="display-4 fw-bold lh-1 mb-3">Мы любим музыку!</h1>
-      <p class="col-lg-10 fs-4">
-        <b>Mouny Music Russia</b> - музыкальный лейбл, для начинающих артистов у которых есть цель в музыке.
-        Наши артисты ценят музыку, наши артисты - это музыка!
-      </p>
-    </div>
-    <div class="col-10 mx-auto col-lg-5">
-      @if(flashMessages.has('error'))
-        <div class="alert alert-danger" role="alert">
-          {{ flashMessages.get('error') }}
-        </div>
-      @endif
-      @if(flashMessages.get('errors.years'))
-        <div class="alert alert-danger" role="alert">
-          {{ flashMessages.get('errors.years') }}
-        </div>
-      @end
-      @if(flashMessages.get('errors.required'))
-      <div class="alert alert-danger" role="alert">
-        {{ flashMessages.get('errors.required') }}
+<div class="px-4 py-5 my-5 text-center">
+  <h1 class="display-5 fw-bold">Авторизация</h1>
+  <div class="col-lg-6 mx-auto">
+    <form class="p-5" action="/api/login" method="post">
+      {{ csrfField() }}
+      <div class="form-floating mb-3">
+        <input type="text" name="username" class="form-control" id="flotingLogin" placeholder="Логин" required>
+        <label for="flotingLogin">Логин</label>
       </div>
-      @end
-      @if(flashMessages.get('errors.link'))
-      <div class="alert alert-danger" role="alert">
-        {{ flashMessages.get('errors.link') }}
-      </div>'
-      @end
-      @if(message === 'ok')
-      <div class="alert alert-success" role="alert">
-        Спасибо! Администраторы уже получили вашу заявку, в случае одобрения, мы свяжемся с вами через email.
+      <div class="form-floating mb-3">
+        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Пароль" required>
+        <label for="flotingLogin">Пароль</label>
       </div>
-      @end
-      <form class="p-5 border rounded-3 bg-light" action="{{ route('ApplicationsController.index') }}" method="post">
-        {{ csrfField() }}
-        <div class="form-floating mb-3">
-          <input type="text" name="firstName" class="form-control" id="flotingFirstName" placeholder="Имя" required>
-          <label for="flotingFirstName">Имя</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" name="lastName" class="form-control" id="floatingLastName" placeholder="Фамилия" required>
-          <label for="floatingLastName">Фамилия</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="Email адрес" required>
-          <label for="floatingEmail">Email</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Псевдоним артиста" required>
-          <label for="floatingUsername">Псевдоним артиста</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="number" name="years" class="form-control" id="floatingDate" placeholder="Сколько вам лет?" required>
-          <label for="floatingDate">Сколько вам лет?</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" name="link" class="form-control" id="floatingLink" placeholder="Группа артиста ВКонтакте" required>
-          <label for="floatingLink">Группа артиста ВКонтакте</label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Отправить заявку</button>
-        <hr class="my-4">
-        <small class="text-muted">Отправляя заявку, вы соглашаетсь с правилами сайта.</small>
-      </form>
-    </div>
-  </div>
-</div>
-<div class="container py-5" id="custom-cards">
-  <h2 class="pb-2 border-bottom">Наши артисты</h2>
-
-  <div class="row row-cols-3 align-items-stretch py-5">
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('./img/sliders/1.jpeg');background-size: 440px;">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">faevskyy</h2>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <p>С нами с 2020</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('./img/sliders/2.jpeg');background-size: 440px;">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Merlin White</h2>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <p>С нами с 2020</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('./img/sliders/3.jpeg');background-size: 440px;">
-        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Габба</h2>
-          <ul class="d-flex list-unstyled mt-auto">
-            <li class="me-auto">
-              <p>С нами с 2020</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+    </form>
   </div>
 </div>
 @end
