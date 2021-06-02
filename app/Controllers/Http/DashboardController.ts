@@ -52,7 +52,7 @@ export default class DashboardController {
       date: payload.date,
       link: payload.link,
       label: payload.label,
-      version: payload.label,
+      version: payload.version,
     }).catch(err => {
       Logger.error(err)
       return response.badRequest('Произошла ошибка при добавлении в базу данных, попробуйте позже.')

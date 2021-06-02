@@ -18,10 +18,10 @@ class DashboardController {
     async createRelease({ request, auth, response }) {
         const releaseSchema = Validator_1.schema.create({
             name: Validator_1.schema.string({}, [
-                Validator_1.rules.minLength(4),
+                Validator_1.rules.minLength(1),
             ]),
             main_artist: Validator_1.schema.string({}, [
-                Validator_1.rules.minLength(4),
+                Validator_1.rules.minLength(2),
             ]),
             another_artists: Validator_1.schema.string.optional(),
             version: Validator_1.schema.string.optional(),
@@ -54,6 +54,7 @@ class DashboardController {
             date: payload.date,
             link: payload.link,
             label: payload.label,
+            version: payload.version,
         }).catch(err => {
             Logger_1.default.error(err);
             return response.badRequest('Произошла ошибка при добавлении в базу данных, попробуйте позже.');
