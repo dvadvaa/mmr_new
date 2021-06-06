@@ -4,13 +4,15 @@
 <div class="px-4 py-5 my-5 text-center">
   <h1 class="display-5 fw-bold">Создание нового релиза</h1>
   <div class="col-lg-6 mx-auto">
-    @if(flashMessages.get('errors.required'))
-    <div class="alert alert-danger" role="alert">
-      {{ flashMessages.get('errors.required') }}
-    </div>
-    @end
     <form class="p-5 border rounded-3 bg-light" action="{{ route('DashboardController.createRelease') }}" method="post">
       {{ csrfField() }}
+      <div class="form-floating mb-3">
+        <select class="form-select" aria-label="Тип релиза" name="type" id="floatingType" required>
+          <option value="audio" selected>Аудио</option>
+          <option value="video">Видео</option>
+        </select>
+        <label for="floatingGenre">* Тип релиза</label>
+      </div>
       <div class="form-floating mb-3">
         <input type="text" name="name" class="form-control" id="flotingName" placeholder="Название" required>
         <label for="flotingName">* Название</label>
@@ -62,10 +64,4 @@
     </form>
   </div>
 </div>
-<script>
-  let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  })
-</script>
 @end

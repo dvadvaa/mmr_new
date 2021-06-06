@@ -13,7 +13,7 @@ export default class DashboardController {
       // .limit(20)
     return view.render('dashboard/releases', {data: data.length ? data : null})
   }
-  public async createRelease ({ request, auth, response }) {
+  public async createRelease ({ request, response, auth }) {
     const releaseSchema = schema.create({
       name: schema.string({}, [
         rules.minLength(1),
@@ -23,7 +23,9 @@ export default class DashboardController {
       ]),
       another_artists: schema.string.optional(),
       version: schema.string.optional(),
-      genre: schema.string(),
+      genre: schema.enum(
+        ['hip-hop', 'pop', 'rock'] as const
+      ),
       explicit: schema.boolean(),
       author: schema.string(),
       date: schema.string(),
@@ -31,16 +33,23 @@ export default class DashboardController {
         rules.url({}),
       ]),
       label: schema.string(),
+      type: schema.enum(
+        ['audio', 'video'] as const
+      ),
     })
     const payload = await request.validate({ schema: releaseSchema,
       messages: {
         required: 'Поле {{ field }} объязательно для заполнения.',
+        enum: 'Введите верные значения в поле выбора.',
+        'main_artist.minLength': 'Значение поля "Главный исполнитель" должно быть больше чем 2 символа.',
+        url: 'Введите валидную ссылку.',
       },
     })
     if (!payload) {
       return response.badRequest('Произошла ошибка, попробуйте позже.')
     }
     await Release.create({
+      type: payload.type,
       name: payload.name,
       main_artist: payload.main_artist,
       another_artists: payload.another_artists,

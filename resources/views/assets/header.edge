@@ -50,7 +50,8 @@
         <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
         @else
         <li><a href="/dashboard" class="nav-link px-2 text-white">Главная</a></li>
-        <li><a href="/dashboard/releases" class="nav-link px-2 text-white">Релизы</a></li>
+        <li><a href="{{ route('DashboardController.getReleases') }}" class="nav-link px-2 text-white">Релизы</a></li>
+        <li><a href="{{ route('InvitesController.getAllUsers') }}" class="nav-link px-2 text-white">Инвайты</a></li>
         <li><a href="/dashboard/releases/new" class="nav-link px-2 text-white">Создать релиз</a></li>
         @end
       </ul>
@@ -73,10 +74,15 @@
         </ul>
       </div>
       @else
-<!--      <div class="text-end">-->
-<!--        <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</button>-->
-<!--      </div>-->
+      <div class="text-end">
+        <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Вход</button>
+        <button type="button" class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Регистрация</button>
+      </div>
       @endif
     </div>
+    @component('assets/login')
+    @end
+    @component('assets/register')
+    @end
   </div>
 </header>

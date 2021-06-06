@@ -7,6 +7,7 @@ export default class Releases extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name', 255).notNullable()
+      table.string('type')
       table.string('main_artist', 255).notNullable()
       table.string('another_artists', 255)
       table.string('genre', 255).notNullable()

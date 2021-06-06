@@ -6,6 +6,9 @@ export default class Release extends BaseModel {
   public id: number
 
   @column()
+  public type: string
+
+  @column()
   public name: string
 
   @column()

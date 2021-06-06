@@ -32,11 +32,13 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/application', 'ApplicationsController.index')
+  Route.post('/register', 'AuthorizationsController.register')
   Route.post('/login', 'AuthorizationsController.index')
 }).prefix('/api')
 
 Route.group(() => {
   Route.post('/release/new', 'DashboardController.createRelease')
+  Route.post('/invite/new', 'InvitesController.createInvite')
 }).prefix('/api/user').middleware('auth')
 
 Route.get('/', async ({ view }) => {
@@ -63,4 +65,5 @@ Route.group(() => {
   Route.get('/', async ({ view }) => view.render('dashboard/index')).as('dashboard.index')
   Route.get('/releases', 'DashboardController.getReleases').as('dashboard.releases')
   Route.get('/releases/new', ({ view }) => view.render('dashboard/new')).as('dashboard.newRelease')
+  Route.get('/invites', 'InvitesController.getAllUsers').as('admin.invites')
 }).prefix('/dashboard').middleware('auth')

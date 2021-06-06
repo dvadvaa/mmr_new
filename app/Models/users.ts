@@ -28,6 +28,9 @@ export default class users extends BaseModel {
   @column()
   public balance: number
 
+  @column()
+  public invited_by: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
