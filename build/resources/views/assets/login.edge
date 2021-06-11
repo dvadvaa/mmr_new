@@ -11,7 +11,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="p-5" action="/api/login" method="post">
+        <form class="p-3" action="{{ route('AuthorizationsController.index') }}" method="post">
           {{ csrfField() }}
           <div class="form-floating mb-3">
             <input type="text" name="username" class="form-control" id="flotingLogin" placeholder="Логин" required>

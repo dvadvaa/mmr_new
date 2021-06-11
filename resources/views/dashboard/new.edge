@@ -1,66 +1,68 @@
 @layout('layouts/main')
-@set('title', 'Панель управления')
+@set('title', 'New release')
 @section('body')
 <div class="px-4 py-5 my-5 text-center">
-  <h1 class="display-5 fw-bold">Создание нового релиза</h1>
+  <h1 class="display-5 fw-bold">Creating a new release</h1>
   <div class="col-lg-6 mx-auto">
     <form class="p-5 border rounded-3 bg-light" action="{{ route('DashboardController.createRelease') }}" method="post">
       {{ csrfField() }}
       <div class="form-floating mb-3">
-        <select class="form-select" aria-label="Тип релиза" name="type" id="floatingType" required>
-          <option value="audio" selected>Аудио</option>
-          <option value="video">Видео</option>
+        <select class="form-select" aria-label="Release type" name="type" id="floatingType" required>
+          <option value="audio" selected>Audio</option>
+          <option value="video">Video</option>
         </select>
-        <label for="floatingGenre">* Тип релиза</label>
+        <label for="floatingType">* Type release</label>
       </div>
       <div class="form-floating mb-3">
         <input type="text" name="name" class="form-control" id="flotingName" placeholder="Название" required>
-        <label for="flotingName">* Название</label>
+        <label for="flotingName">* Title</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" name="main_artist" class="form-control" id="floatingMainArtist" placeholder="Главный исполнитель" required>
-        <label for="floatingMainArtist">* Главный исполнитель</label>
+        <input type="text" name="main_artist" class="form-control" id="floatingMainArtist" placeholder="Main artist" required>
+        <label for="floatingMainArtist">* Main artist</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" name="another_artists" class="form-control" id="floatingAnotherArtists" placeholder="Дополнительные исполнители" data-bs-toggle="tooltip" data-bs-placement="right" title="Если релиз без доп. исполнителей, то оставьте это поле пустым.">
-        <label for="floatingAnotherArtists">Дополнительные исполнители</label>
+        <input type="text" name="another_artists" class="form-control" id="floatingAnotherArtists" placeholder="Additional artists" data-bs-toggle="tooltip" data-bs-placement="right" title="If the release is without add. artists, then leave this field blank.">
+        <label for="floatingAnotherArtists">Additional artists</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" name="version" class="form-control" id="floatingVersion" placeholder="Версия" data-bs-toggle="tooltip" data-bs-placement="right" title="Если релиз без версии, то оставьте это поле пустым">
-        <label for="floatingVersion">Версия</label>
+        <input type="text" name="version" class="form-control" id="floatingVersion" placeholder="Version" data-bs-toggle="tooltip" data-bs-placement="right" title="If the release is without version, then leave this field blank">
+        <label for="floatingVersion">Version</label>
       </div>
       <div class="form-floating mb-3">
-        <select class="form-select" aria-label="Жанр" name="genre" id="floatingGenre" required>
+        <select class="form-select" aria-label="Genre" name="genre" id="floatingGenre" required>
           <option value="hip-hop" selected>Hip-Hop/Rap</option>
           <option value="pop">Pop</option>
           <option value="rock">Rock</option>
+          <option value="rock">Alternative</option>
+          <option value="rock">Rap</option>
         </select>
-        <label for="floatingGenre">* Жанр</label>
+        <label for="floatingGenre">* genre</label>
       </div>
         <div class="form-floating mb-3">
-        <select class="form-select" aria-label="* Ненормативная лексика" name="explicit" id="floatingExplicit" required>
+        <select class="form-select" aria-label="* Explicit" name="explicit" id="floatingExplicit" required>
           <option value="0" selected>Нет</option>
           <option value="1">Да</option>
         </select>
-        <label for="floatingExplicit">* Ненормативная лексика</label>
+        <label for="floatingExplicit">* Explicit</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" name="author" class="form-control" id="floatingAuthor" placeholder="* Автор (ФИО)" required>
-        <label for="floatingAuthor">* Автор (ФИО)</label>
+        <input type="text" name="author" class="form-control" id="floatingAuthor" placeholder="* Author (full name)" required>
+        <label for="floatingAuthor">* Author (full name)</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="date" name="date" class="form-control"  id="floatingDate" placeholder="* Дата релиза" required>
-        <label for="floatingDate">* Дата релиза</label>
+        <input type="date" name="date" class="form-control"  id="floatingDate" placeholder="* Release date" required>
+        <label for="floatingDate">* Release date</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" name="link" class="form-control"  id="floatingLink" placeholder="Ссылка на папку в облаке" data-bs-toggle="tooltip" data-bs-placement="right" title="Загрузите трек(и) в формате .wav и обложку альбома в отдельную папку на Яндекс.Диск или любом другом облаке." required>
-        <label for="floatingDate">* Ссылка на папку в облаке</label>
+        <input type="text" name="link" class="form-control"  id="floatingLink" placeholder="Link to a folder in the cloud" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload track (s) in .wav format and album art to a separate folder on Yandex.Disk or any other cloud." required>
+        <label for="floatingDate">* Link to a folder in the cloud</label>
       </div>
       <div class="form-floating mb-3">
-        <input type="text" name="label" class="form-control"  id="floatingLabel" placeholder="* Название лейбла" data-bs-toggle="tooltip" data-bs-placement="right" title="Название лейбла, от которого будет залит материал" required>
-        <label for="floatingDate">* Название лейбла</label>
+        <input type="text" name="label" class="form-control"  id="floatingLabel" placeholder="* Label" data-bs-toggle="tooltip" data-bs-placement="right" title="The name of the label from which the material will be uploaded" required>
+        <label for="floatingDate">* Label</label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Создать</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Create release</button>
     </form>
   </div>
 </div>

@@ -51,6 +51,10 @@ __decorate([
     __metadata("design:type", Number)
 ], users.prototype, "balance", void 0);
 __decorate([
+    Orm_1.column(),
+    __metadata("design:type", Number)
+], users.prototype, "invited_by", void 0);
+__decorate([
     Orm_1.column.dateTime({ autoCreate: true }),
     __metadata("design:type", luxon_1.DateTime)
 ], users.prototype, "createdAt", void 0);

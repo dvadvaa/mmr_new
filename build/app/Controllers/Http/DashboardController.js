@@ -15,7 +15,7 @@ class DashboardController {
             .orderBy('created_at', 'desc');
         return view.render('dashboard/releases', { data: data.length ? data : null });
     }
-    async createRelease({ request, auth, response }) {
+    async createRelease({ request, response, auth }) {
         const releaseSchema = Validator_1.schema.create({
             name: Validator_1.schema.string({}, [
                 Validator_1.rules.minLength(1),
@@ -25,7 +25,7 @@ class DashboardController {
             ]),
             another_artists: Validator_1.schema.string.optional(),
             version: Validator_1.schema.string.optional(),
-            genre: Validator_1.schema.string(),
+            genre: Validator_1.schema.enum(['hip-hop', 'pop', 'rock']),
             explicit: Validator_1.schema.boolean(),
             author: Validator_1.schema.string(),
             date: Validator_1.schema.string(),
@@ -33,16 +33,21 @@ class DashboardController {
                 Validator_1.rules.url({}),
             ]),
             label: Validator_1.schema.string(),
+            type: Validator_1.schema.enum(['audio', 'video']),
         });
         const payload = await request.validate({ schema: releaseSchema,
             messages: {
                 required: 'Поле {{ field }} объязательно для заполнения.',
+                enum: 'Введите верные значения в поле выбора.',
+                'main_artist.minLength': 'Значение поля "Главный исполнитель" должно быть больше чем 2 символа.',
+                url: 'Введите валидную ссылку.',
             },
         });
         if (!payload) {
             return response.badRequest('Произошла ошибка, попробуйте позже.');
         }
         await Release_1.default.create({
+            type: payload.type,
             name: payload.name,
             main_artist: payload.main_artist,
             another_artists: payload.another_artists,

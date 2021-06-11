@@ -1,0 +1,32 @@
+@layout('layouts/main')
+@set('title', 'Finance')
+@section('body')
+<br>
+<h1 align="center">Finance</h1>
+<h2 align="center">Your balance - {{ auth.user.balance }}$</h2>
+@if(auth.user.balance === 0)
+        <p class="lead mb-4">
+          The receiving funds is not available to you, since your balance is less than 1 dollar.
+        </p>
+@else
+<script type="text/javascript" src="https://formdesigner.ru/js/widgets/popup.js?v=0.0.2"></script>
+<h3 target="_blank" style="color:blue" align="center" onclick="FDPopup.open(157548,{'hideCloseBtn':false,'host':'formdesigner.ru','overlay':{'background':'#000000','opacity':0.1}}); return false;" href="https://formdesigner.ru/form/view/157548">Receive</h3>
+@end
+<!kirillsaint1>
+@end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

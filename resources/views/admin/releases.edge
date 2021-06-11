@@ -1,69 +1,104 @@
 @layout('layouts/admin')
-@set('title', 'Все релизы')
+@set('title', 'All releases')
 @section('body')
 <div class="px-4 py-5 my-5 text-center">
-  <h1 class="display-5 fw-bold">Все релизы</h1>
+  <h1 class="display-5 fw-bold">All releases</h1>
   <div class="col-lg-8 mx-auto">
     @if(!data)
     <p class="lead mb-4">
-      Нет релизов в базе данных.
+      There are no releases in the database.
     </p>
     @else
     <table class="table table-striped">
       <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Испольнитель (доп.)</th>
-        <th scope="col">Название</th>
-        <th scope="col">Жанр</th>
-        <th scope="col">Версия</th>
-        <th scope="col">Explicit</th>
-        <th scope="col">Автор</th>
-        <th scope="col">Лейбл</th>
-        <th scope="col">Дата релиза</th>
-        <th scope="col">Материал</th>
-        <th scope="col">Статус</th>
-        <th scope="col">Действия</th>
+        <th scope="col">Type</th>
+        <th scope="col">Status</th>
+        <th scope="col">Title / Artist</th>
+        <th scope="col">Date</th>
+        <th scope="col">Label</th>
+        <th scope="col">Information</th>
       </tr>
       </thead>
       <tbody>
       @each(item in data)
-      <tr>
-        <th scope="row">{{ item.id }}</th>
-        @if(item.another_artists)
-        <td>{{ item.main_artist }} ({{ item.another_artists }})</td>
-        @else
-        <td>{{ item.main_artist }}</td>
-        @end
-        <td>{{ item.name }}</td>
-        <td>{{ item.genre }}</td>
-        @if(item.version)
-        <td>{{ item.version }}</td>
-        @else
-        <td>-</td>
-        @end
-        @if(item.explicit === 1)
-        <td>Да</td>
-        @else
-        <td>Нет</td>
-        @end
-        <td>{{ item.author }}</td>
-        <td>{{ item.label }}</td>
-        <td>{{ item.date }}</td>
-        <td><a href="{{ item.link }}">Перейти</a></td>
-        @if(item.accepted === 1)
-        <td><i class="far fa-check-circle"></i></td>
-        @elseif(item.accepted === 2)
-        <td><i class="fas fa-ban" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ item.reason }}"></i></td>
-        @else
-        <td><i class="far fa-clock"></i></td>
-        @end
-        <td>
-          <a href="{{ route('AdminsController.acceptRelease', {id: item.id}) }}"><i class="far fa-check-circle"></i></a>
-          <a href="#" data-bs-toggle="modal" data-bs-target="#reasonModal_{{ item.id }}"><i class="fas fa-ban"></i></a>
-          <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ item.id }}"><i class="far fa-times-circle"></i></a>
-        </td>
-      </tr>
+        <tr>
+          <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-vinyl" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM4 8a4 4 0 1 1 8 0 4 4 0 0 1-8 0z"/>
+  <path d="M9 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg></td>
+          @if(item.accepted === 1)
+          <td><i class="far fa-check-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="This release has been delivered to stores"></i></td>
+          @elseif(item.accepted === 2)
+          <td><i class="fas fa-ban" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ item.reason }}"></i></td>
+          @else
+          <td><i class="far fa-clock" data-bs-toggle="tooltip" data-bs-placement="top" title="This release is under review"></i></td>
+          @end
+          @if(item.another_artists)
+          <td>{{ item.name }}<br>by <i>{{ item.main_artist }}, {{ item.another_artists }}</i></td>
+          @else
+          <td>{{ item.name }}<br>by <i>{{ item.main_artist }}</i></td>
+          @end
+          <td>{{ item.date }}</td>
+          <td>{{ item.label }}</td>
+          <td><button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#release{{ item.id }}">Details</button></td>
+        </tr>
+    <div class="modal fade" id="release{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          @if(item.accepted === 1)
+          <div class="alert alert-success" role="alert">
+  The release has been delivered to stores!
+</div>
+          @elseif(item.accepted === 2)
+          <div class="alert alert-danger" role="alert">
+  This release has been rejected. Reason: {{ item.reason }}
+</div>
+          @else
+          <div class="alert alert-warning" role="alert">
+  This release is under review
+</div>
+          @end
+          <b>Type:</b> Аудио релиз<br>
+          <b>ID:</b>{{ item.id }}<br>
+          <b>By:</b>{{ item.user_id }}<br>
+          <b>Title:</b> {{ item.name }}<br>
+          @if(item.another_artists)
+          <b>Artists:</b> {{ item.main_artist }},{{ item.another_artists }}<br>
+          @else
+          <b>Artist:</b> {{ item.main_artist }}<br>
+          @end
+          @if(item.version)
+          <b>Version:</b> {{ item.version }}<br>
+          @else
+          <b>Version:</b> None<br>
+          @end
+          <b>Genre:</b> {{ item.genre }}<br>
+          @if(item.explicit === 1)
+          <b>Explicit:</b> Yes<br>
+          @else
+          <b>Explicit:</b> No<br>
+          @end
+          <b>Author:</b> {{ item.author }}<br>
+          <b>Date release:</b> {{ item.date }}<br>
+          <b>Label:</b> {{ item.label }}<br>
+          <a class="btn btn-primary" href="{{ item.link }}">Download</a><br>
+          <a href="{{ route('AdminsController.acceptRelease', {id: item.id}) }}">Accept</a>,
+          <a href="#" data-bs-toggle="modal" data-bs-target="#reasonModal_{{ item.id }}">Reject</a>,
+          <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ item.id }}">Delete</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
         <div class="modal fade" id="reasonModal_{{ item.id }}" tabindex="-1" aria-labelledby="reasonModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">

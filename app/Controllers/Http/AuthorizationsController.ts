@@ -74,7 +74,7 @@ export default class AuthorizationsController {
       return session.flash('error', 'Инвайт-код уже активирован')
     }
     delete payload.invite
-    payload.status = 'user'
+    payload.status = 'invited'
     payload.invited_by = invite!.author_id
 
     let newUser = await User.create(payload)

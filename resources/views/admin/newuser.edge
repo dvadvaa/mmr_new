@@ -1,14 +1,14 @@
 @layout('layouts/admin')
-@set('title', 'Создание нового пользователя')
+@set('title', 'Create a new user')
 @section('body')
 <div class="px-4 py-5 my-5 text-center">
-  <h1 class="display-5 fw-bold">Создание нового пользователя</h1>
+  <h1 class="display-5 fw-bold">Create a new user</h1>
   <div class="col-lg-6 mx-auto">
     <form class="p-5 border rounded-3 bg-light" action="{{ route('AdminsController.registerUser') }}" method="post">
       {{ csrfField() }}
       <div class="form-floating mb-3">
         <input type="text" name="username" class="form-control" id="flotingUsername" placeholder="Логин" required>
-        <label for="flotingUsername">Логин</label>
+        <label for="flotingUsername">Login</label>
       </div>
       <div class="form-floating mb-3">
         <input type="text" name="email" class="form-control" id="floatingEmail" placeholder="Email" required>
@@ -19,14 +19,14 @@
         <label for="floatingEmail">Password</label>
       </div>
       <div class="form-floating mb-3">
-        <select class="form-select" aria-label="Статус" name="status" id="floatingStatus" required>
-          <option value="user" selected>Выберите статус пользователя</option>
+        <select class="form-select" aria-label="Status" name="status" id="floatingStatus" required>
+          <option value="user" selected>Select user status</option>
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
-        <label for="floatingStatus">Статус</label>
+        <label for="floatingStatus">Status</label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Создать</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Create</button>
     </form>
   </div>
 </div>

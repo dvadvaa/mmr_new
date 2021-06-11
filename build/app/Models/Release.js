@@ -20,6 +20,10 @@ __decorate([
 __decorate([
     Orm_1.column(),
     __metadata("design:type", String)
+], Release.prototype, "type", void 0);
+__decorate([
+    Orm_1.column(),
+    __metadata("design:type", String)
 ], Release.prototype, "name", void 0);
 __decorate([
     Orm_1.column(),

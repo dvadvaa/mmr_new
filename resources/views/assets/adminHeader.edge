@@ -40,10 +40,10 @@
       </a>
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/admin" class="nav-link px-2 text-white">Главная</a></li>
-        <li><a href="/admin/users" class="nav-link px-2 text-white">Пользователи</a></li>
-        <li><a href="/admin/releases" class="nav-link px-2 text-white">Релизы</a></li>
-        <li><a href="/admin/users/new" class="nav-link px-2 text-white">Создать нового пользователя</a></li>
+        <li><a href="/admin" class="nav-link px-2 text-white">Main</a></li>
+        <li><a href="/admin/users" class="nav-link px-2 text-white">Users</a></li>
+        <li><a href="/admin/releases" class="nav-link px-2 text-white">Releases</a></li>
+        <li><a href="/admin/users/new" class="nav-link px-2 text-white">New user</a></li>
       </ul>
       @if(auth.user)
       <div class="dropdown">
@@ -52,11 +52,11 @@
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li><a class="dropdown-item" href="/dashboard">Обычная панель</a></li>
+          <li><a class="dropdown-item" href="/dashboard">User panel</a></li>
           <li>
             <form class="" action="/logout" method="POST" id="logout">
               {{ csrfField() }}
-              <a class="dropdown-item" href="" onClick="document.getElementById('logout').submit(); return false;">Выход</a>
+              <a class="dropdown-item" href="" onClick="document.getElementById('logout').submit(); return false;">Logout</a>
             </form>
           </li>
         </ul>

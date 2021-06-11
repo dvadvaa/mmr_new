@@ -29,13 +29,12 @@ import Bouncer from '@ioc:Adonis/Addons/Bouncer'
 | NOTE: Always export the "actions" const from this file
 |****************************************************************
 */
+import User from 'App/Models/users'
 
 export const { actions } = Bouncer
-  // .define('index', (user: User) => {
-  //   console.log(user)
-  // }, {
-  //   allowGuest: true, // 👈
-  // })
+  .define('createInvite', (user: User) => {
+    return user.status !== 'invited'
+  })
 /*
 |--------------------------------------------------------------------------
 | Bouncer Policies

@@ -18,6 +18,7 @@ class UsersSchema extends Schema_1.default {
             table.string('remember_me_token').nullable();
             table.string('status').nullable();
             table.bigInteger('balance').defaultTo(0);
+            table.bigInteger('invited_by');
             table.timestamps(true);
         });
     }
