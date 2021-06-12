@@ -3,8 +3,10 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import {
   column,
   beforeSave,
-  BaseModel,
+  BaseModel, hasMany, HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
+import Release from "App/Models/Release";
+
 
 export default class users extends BaseModel {
   @column({ isPrimary: true })
@@ -43,4 +45,10 @@ export default class users extends BaseModel {
       users.password = await Hash.make(users.password)
     }
   }
+
+  @hasMany(() => Release, {
+    localKey: 'id',
+    foreignKey: 'user_id', // defaults to userId
+  })
+  public releases: HasMany<typeof Release>
 }

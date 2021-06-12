@@ -2,16 +2,28 @@
 import Release from 'App/Models/Release'
 import {rules, schema} from '@ioc:Adonis/Core/Validator'
 import Logger from '@ioc:Adonis/Core/Logger'
+// import User from "App/Models/users";
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class DashboardController {
   public async getReleases ({ view, auth }) {
     await auth.use('web').authenticate()
-    const data = await Release
-      .query()
+    const releasesByInvUser = await Database
+      .from('releases')
+      .whereIn(
+        'user_id',
+        Database
+          .from('users')
+          .select('id')
+          .where('invited_by', '=', auth.user.id)
+      ).orderBy('created_at', 'asc')
+
+    const releasesByUser = await Database
+      .from('releases')
       .where('user_id', '=', auth.user.id)
-      .orderBy('created_at', 'desc')
-      // .limit(20)
-    return view.render('dashboard/releases', {data: data.length ? data : null})
+      .orderBy('created_at', 'asc')
+
+    return view.render('dashboard/releases', {data: [...releasesByUser, ...releasesByInvUser]})
   }
   public async createRelease ({ request, response, auth }) {
     const releaseSchema = schema.create({
