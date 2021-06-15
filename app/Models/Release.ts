@@ -43,6 +43,12 @@ export default class Release extends BaseModel {
   public reason: string
 
   @column()
+  public social: string
+
+  @column()
+  public promo: string
+
+  @column()
   public user_id: number
 
   @column()

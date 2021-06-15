@@ -1,4 +1,77 @@
 <style>
+#menu__toggle {
+  opacity: 0;
+}
+.menu__btn {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+}
+.menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+.menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+.menu__box {
+  display: block;
+  position: fixed;
+  visibility: hidden;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100%;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  text-align: center;
+  background-color: #ECEFF1;
+  box-shadow: 1px 0px 6px rgba(0, 0, 0, .2);
+}
+.menu__item {
+  display: block;
+  padding: 12px 24px;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.menu__item:hover {
+  background-color: #CFD8DC;
+}
+#menu__toggle:checked ~ .menu__btn > span {
+  transform: rotate(45deg);
+}
+#menu__toggle:checked ~ .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0);
+}
+#menu__toggle:checked ~ .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+#menu__toggle:checked ~ .menu__box {
+  visibility: visible;
+  left: 0;
+}
   .b-example-divider {
     height: 3rem;
     background-color: rgba(0, 0, 0, .1);
@@ -32,19 +105,19 @@
     outline: 0;
   }
 </style>
-<header class="p-3 bg-dark text-white">
-  <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-      <a href="/admin" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" style="font-size: 22px;margin-right: 15px;">
-        <b>MMR</b>
-      </a>
-
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/admin" class="nav-link px-2 text-white">Главная</a></li>
-        <li><a href="/admin/users" class="nav-link px-2 text-white">Пользователи</a></li>
-        <li><a href="/admin/releases" class="nav-link px-2 text-white">Релизы</a></li>
-        <li><a href="/admin/users/new" class="nav-link px-2 text-white">Создать нового пользователя</a></li>
-      </ul>
+<nav class="navbar navbar-dark bg-dark">
+<div class="hamburger-menu">
+  <input id="menu__toggle" type="checkbox" />
+  <label class="menu__btn" for="menu__toggle">
+    <span></span>
+  </label>
+  <ul class="menu__box bg-dark">
+    <li><a href="/admin" class="menu__item">Main</a></li>
+        <li><a href="/admin/users" class="menu__item">Users</a></li>
+        <li><a href="/admin/releases" class="menu__item">Releases</a></li>
+        <li><a href="/admin/users/new" class="menu__item">New user</a></li>
+  </ul>
+</div>
       @if(auth.user)
       <div class="dropdown">
         <a class="btn btn-outline-light me-2" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,16 +125,16 @@
         </a>
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li><a class="dropdown-item" href="/dashboard">Обычная панель</a></li>
+          <li><a class="dropdown-item" href="/dashboard">User panel</a></li>
           <li>
             <form class="" action="/logout" method="POST" id="logout">
               {{ csrfField() }}
-              <a class="dropdown-item" href="" onClick="document.getElementById('logout').submit(); return false;">Выход</a>
+              <a class="dropdown-item" href="" onClick="document.getElementById('logout').submit(); return false;">Logout</a>
             </form>
           </li>
         </ul>
       </div>
       @endif
-    </div>
   </div>
+</nav>
 </header>

@@ -13,11 +13,11 @@
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Логин</th>
+        <th scope="col">Login</th>
         <th scope="col">Email</th>
-        <th scope="col">Статус</th>
-        <th scope="col">Баланс</th>
-        <th scope="col">Действия</th>
+        <th scope="col">Status</th>
+        <th scope="col">Balance</th>
+        <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -82,25 +82,26 @@
               <form class="" action="{{ route('AdminsController.editUserData', {id: item.id}) }}" method="POST">
                 {{ csrfField() }}
                 <div class="form-floating mb-3">
-                  <input type="text" name="username" class="form-control" id="flotingUsername" placeholder="Новый логин">
-                  <label for="flotingUsername">Новый логин</label>
+                  <input type="text" name="username" class="form-control" id="flotingUsername" placeholder="New login">
+                  <label for="flotingUsername">New login</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" name="email" class="form-control" id="flotingEmail" placeholder="Новый email">
-                  <label for="flotingPassword">Новый email</label>
+                  <input type="text" name="email" class="form-control" id="flotingEmail" placeholder="New email">
+                  <label for="flotingPassword">New email</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="text" name="password" class="form-control" id="flotingPassword" placeholder="Новый пароль">
-                  <label for="flotingPassword">Новый пароль</label>
+                  <input type="text" name="password" class="form-control" id="flotingPassword" placeholder="New password">
+                  <label for="flotingPassword">New password</label>
                 </div>
                 <div class="form-floating mb-3">
                   <select class="form-select" aria-label="Статус" name="status" id="floatingStatus" required>
                     <option value="user" selected>User</option>
                     <option value="admin">Admin</option>
+                    <option value="invited">Invited</option>
                   </select>
-                  <label for="floatingStatus">Статус</label>
+                  <label for="floatingStatus">Status</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Изменить</button>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
               </form>
             </div>
           </div>

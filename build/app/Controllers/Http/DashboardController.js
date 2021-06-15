@@ -6,14 +6,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Release_1 = __importDefault(global[Symbol.for('ioc.use')]("App/Models/Release"));
 const Validator_1 = global[Symbol.for('ioc.use')]("Adonis/Core/Validator");
 const Logger_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Core/Logger"));
+const Database_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Lucid/Database"));
 class DashboardController {
     async getReleases({ view, auth }) {
         await auth.use('web').authenticate();
-        const data = await Release_1.default
-            .query()
+        const releasesByInvUser = await Database_1.default
+            .from('releases')
+            .whereIn('user_id', Database_1.default
+            .from('users')
+            .select('id')
+            .where('invited_by', '=', auth.user.id)).orderBy('created_at', 'desc');
+        const releasesByUser = await Database_1.default
+            .from('releases')
             .where('user_id', '=', auth.user.id)
             .orderBy('created_at', 'desc');
-        return view.render('dashboard/releases', { data: data.length ? data : null });
+        return view.render('dashboard/releases', { data: [...releasesByUser, ...releasesByInvUser] });
     }
     async createRelease({ request, response, auth }) {
         const releaseSchema = Validator_1.schema.create({

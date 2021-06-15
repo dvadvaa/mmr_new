@@ -25,6 +25,8 @@ class Releases extends Schema_1.default {
             table.string('link').notNullable();
             table.string('label').notNullable();
             table.boolean('accepted').notNullable();
+            table.string('social');
+            table.string('promo');
             table.string('reason');
             table.integer('accepted_by');
             table.timestamps(true);

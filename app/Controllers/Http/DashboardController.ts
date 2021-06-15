@@ -16,12 +16,12 @@ export default class DashboardController {
           .from('users')
           .select('id')
           .where('invited_by', '=', auth.user.id)
-      ).orderBy('created_at', 'asc')
+      ).orderBy('created_at', 'desc')
 
     const releasesByUser = await Database
       .from('releases')
       .where('user_id', '=', auth.user.id)
-      .orderBy('created_at', 'asc')
+      .orderBy('created_at', 'desc')
 
     return view.render('dashboard/releases', {data: [...releasesByUser, ...releasesByInvUser]})
   }

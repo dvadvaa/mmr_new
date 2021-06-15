@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const luxon_1 = require("luxon");
 const Hash_1 = __importDefault(global[Symbol.for('ioc.use')]("Adonis/Core/Hash"));
 const Orm_1 = global[Symbol.for('ioc.use')]("Adonis/Lucid/Orm");
+const Release_1 = __importDefault(global[Symbol.for('ioc.use')]("App/Models/Release"));
 class users extends Orm_1.BaseModel {
     static async hashPassword(users) {
         if (users.$dirty.password) {
@@ -62,6 +63,13 @@ __decorate([
     Orm_1.column.dateTime({ autoCreate: true, autoUpdate: true }),
     __metadata("design:type", luxon_1.DateTime)
 ], users.prototype, "updatedAt", void 0);
+__decorate([
+    Orm_1.hasMany(() => Release_1.default, {
+        localKey: 'id',
+        foreignKey: 'user_id',
+    }),
+    __metadata("design:type", Object)
+], users.prototype, "releases", void 0);
 __decorate([
     Orm_1.beforeSave(),
     __metadata("design:type", Function),
