@@ -4,7 +4,7 @@
 <div class="px-4 py-5 my-5 text-center">
   <h1 class="display-5 fw-bold">Creating a new release</h1>
   <div class="col-lg-6 mx-auto">
-    <form class="p-5 border rounded-3 bg-light" action="{{ route('DashboardController.createRelease') }}" method="post">
+    <form class="p-5 border rounded-3 bg-light" id="releaseForm" action="{{ route('DashboardController.createRelease') }}" method="post">
       {{ csrfField() }}
       <div class="form-floating mb-3">
         <select class="form-select" aria-label="Release type" name="type" id="floatingType" required>
@@ -56,14 +56,231 @@
       </div>
       <div class="form-floating mb-3">
         <input type="text" name="link" class="form-control"  id="floatingLink" placeholder="Link to a folder in the cloud" data-bs-toggle="tooltip" data-bs-placement="right" title="Upload track (s) in .wav format and album art to a separate folder on Yandex.Disk or any other cloud." required>
-        <label for="floatingDate">* Link to a folder in the cloud</label>
+        <label for="floatingLink">* Link to a folder in the cloud</label>
       </div>
       <div class="form-floating mb-3">
         <input type="text" name="label" class="form-control"  id="floatingLabel" placeholder="* Label" data-bs-toggle="tooltip" data-bs-placement="right" title="The name of the label from which the material will be uploaded" required>
-        <label for="floatingDate">* Label</label>
+        <label for="floatingLabel">* Label</label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Create release</button>
+      <hr/>
+      <div class="form-floating mb-3">
+        <button class="w-100 btn btn-lg btn-primary" type="button" onclick="newTrack()">Add track</button>
+      </div>
+      <div id="tracks">
+      </div>
+      <hr/>
+      <button class="w-100 btn btn-lg btn-primary" id="submitButton" type="button">Create release</button>
     </form>
   </div>
 </div>
+<script>
+  const tracks = [];
+  let count = 0;
+  const serializeArray = function (form) {
+    var arr = [];
+    Array.prototype.slice.call(form.elements).forEach(function (field) {
+      if (!field.name || field.disabled || ['file', 'reset', 'submit', 'button'].indexOf(field.type) > -1) return;
+      if (field.type === 'select-multiple') {
+        Array.prototype.slice.call(field.options).forEach(function (option) {
+          if (!option.selected) return;
+          arr.push({
+            name: field.name,
+            value: option.value,
+            id: option.id
+          });
+        });
+        return;
+      }
+      if (['checkbox', 'radio'].indexOf(field.type) >-1 && !field.checked) return;
+      arr.push({
+        name: field.name,
+        value: field.value,
+        id: field.id,
+        trackId: field.placeholder
+      });
+    });
+    return arr;
+  };
+  function serialize (data) {
+    let obj = {};
+    for (let [key, value] of data) {
+      if (obj[key] !== undefined) {
+        if (!Array.isArray(obj[key])) {
+          obj[key] = [obj[key]];
+        }
+        obj[key].push(value);
+      } else {
+        obj[key] = value;
+      }
+    }
+    return obj;
+  }
+
+  function newTrack() {
+    count += 1;
+    const items = [
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_name',
+        className: 'form-control',
+        placeholder: 'Name'
+      },
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_version',
+        className: 'form-control',
+        placeholder: 'Version'
+      },
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_artist',
+        className: 'form-control',
+        placeholder: 'Main artist'
+      },
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_additional_artists',
+        className: 'form-control',
+        placeholder: 'Additional artists'
+      },
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_link',
+        className: 'form-control',
+        placeholder: 'Link to files'
+      },
+      {
+        type: 'select',
+        attr_type: '',
+        name: 'track_explicit',
+        className: 'form-select',
+        placeholder: 'Explicit',
+        options: [
+          {
+            value: 0,
+            text: 'Нет',
+            selected: true
+          },
+          {
+            value: 1,
+            text: 'Да',
+            selected: false
+          }
+        ]
+      },
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_author',
+        className: 'form-control',
+        placeholder: 'Author (full name)'
+      },
+      {
+        type: 'input',
+        attr_type: 'text',
+        name: 'track_producer',
+        className: 'form-control',
+        placeholder: 'Producer'
+      },
+    ]
+    let container = document.getElementById('tracks');
+
+    let trackDiv = document.createElement('div');
+    trackDiv.className = "track"
+    trackDiv.id = count
+
+    for (let [index, item] of items.entries()) {
+      let divInput = document.createElement('div');
+      divInput.className = "form-floating mb-3"
+      divInput.id = count
+
+
+      let inputName = document.createElement(item.type);
+      inputName.type = item.attr_type;
+      inputName.name = item.name;
+      inputName.className = item.className;
+      inputName.placeholder = count
+      inputName.id = 'track'
+
+      divInput.appendChild(inputName);
+
+      if (item.type === 'select') {
+        item.options.forEach(i => {
+          let optionName = document.createElement('option');
+          optionName.value = i.value
+          optionName.textContent = i.text
+          if (i.selected) {
+            optionName.selected = true
+          }
+          inputName.appendChild(optionName);
+        })
+      }
+
+      let labelName = document.createElement('label');
+      labelName.textContent = item.placeholder
+      divInput.appendChild(labelName);
+
+      trackDiv.appendChild(divInput);
+      if (items.length - 1 === index) {
+        trackDiv.appendChild(document.createElement('hr'));
+      }
+    }
+
+    container.appendChild(trackDiv)
+  }
+
+  submitButton.onclick = async (e) => {
+    let div = document.getElementById('tracks');
+    let divs = div.getElementsByClassName('track');
+    if (tracks.length) {
+      return;
+    }
+      for (const i of divs) {
+        let obj = {};
+        const inputs = document.getElementById(i.id).getElementsByTagName('input');
+        const selects = document.getElementById(i.id).getElementsByTagName('select');
+        obj['id'] = i.id
+        for (const inp of inputs) {
+          obj[inp.name] = inp.value
+        }
+        for (const sel of selects) {
+          obj[sel.name] = sel.value
+        }
+        if (Object.keys(obj).length !== 0) {
+          tracks.push(obj)
+        }
+      }
+    if (!tracks.length) {
+      return alert('Необходимо добавить хоть 1 трек.')
+    }
+
+    let form = document.querySelector('#releaseForm');
+    let data = new FormData(form);
+    data.append('tracks', JSON.stringify(tracks))
+    const formData = new URLSearchParams(data);
+
+    const response = await fetch('/api/user/release/new', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      // mode: 'cors', // no-cors, *cors, same-origin
+      // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'include', // include, *same-origin, omit
+      headers: {
+        // 'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      // referrerPolicy: 'no-referrer', // no-referrer, *client
+      body: formData // body data type must match "Content-Type" header
+    }).then(response => {
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
+    })
+  }
+</script>
 @end

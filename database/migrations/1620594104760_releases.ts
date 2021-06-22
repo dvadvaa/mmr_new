@@ -20,6 +20,7 @@ export default class Releases extends BaseSchema {
       table.string('label').notNullable()
       table.boolean('accepted').notNullable()
       table.string('social')
+      table.json('tracks')
       table.string('promo')
       table.string('reason')
       table.integer('accepted_by')

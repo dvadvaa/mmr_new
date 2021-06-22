@@ -88,6 +88,11 @@
           <b>Author:</b> {{ item.author }}<br>
           <b>Date release:</b> {{ item.date }}<br>
           <b>Label:</b> {{ item.label }}<br>
+          <b>Tracks:</b><br/>
+        @each(track in JSON.parse(item.tracks))
+        {{track.id}}. {{track.track_author}} ({{track.track_additional_artists}}) - {{track.track_name}} (prod. by {{track.track_producer}})<br/>
+        @end
+        <br/>
           <a class="btn btn-primary" href="{{ item.link }}">Download</a><br>
           <a href="{{ route('AdminsController.acceptRelease', {id: item.id}) }}">Accept</a>,
           <a href="#" data-bs-toggle="modal" data-bs-target="#reasonModal_{{ item.id }}">Reject</a>,

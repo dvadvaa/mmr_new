@@ -48,6 +48,7 @@ export default class DashboardController {
       type: schema.enum(
         ['audio', 'video'] as const
       ),
+      tracks: schema.string(),
     })
     const payload = await request.validate({ schema: releaseSchema,
       messages: {
@@ -60,6 +61,19 @@ export default class DashboardController {
     if (!payload) {
       return response.badRequest('Произошла ошибка, попробуйте позже.')
     }
+    console.log(JSON.parse(payload.tracks))
+    // interface iTrack{
+    //   id: string,
+    //   track_name: string,
+    //   track_version: string,
+    //   track_artist: string,
+    //   track_additional_artists: string,
+    //   track_link: string,
+    //   track_author: string,
+    //   track_producer: string,
+    //   track_explicit: string
+    // }
+    // const tracks = JSON.parse(payload.tracks)
     await Release.create({
       type: payload.type,
       name: payload.name,
@@ -74,11 +88,12 @@ export default class DashboardController {
       link: payload.link,
       label: payload.label,
       version: payload.version,
+      tracks: payload.tracks,
     }).catch(err => {
       Logger.error(err)
       return response.badRequest('Произошла ошибка при добавлении в базу данных, попробуйте позже.')
     })
-    Logger.info('Создан новый релиз.')
+    // Logger.info('Создан новый релиз.')
     return response.redirect().toRoute('dashboard.releases')
   }
 }

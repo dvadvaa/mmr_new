@@ -52,6 +52,9 @@ export default class Release extends BaseModel {
   public user_id: number
 
   @column()
+  public tracks: object
+
+  @column()
   public accepted: boolean
 
   @column.dateTime({ autoCreate: true })
